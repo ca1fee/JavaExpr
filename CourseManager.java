@@ -1,73 +1,13 @@
 package com.company;
 
-public class Course {
-    int cid;
-    String name;
+import java.io.IOException;
+import java.util.Scanner;
 
-    Course(){
-        this.cid = -1;
-        this.name = new String("none");
-    }
+public class CourseManager {
 
-
-    Course(int cid, String name){
-        this.cid = cid;
-        this.name = new String(name);
-    }
-
-    int GetId(){
-        return this.cid;
-    }
-    String Getname(){
-        return this.name;
-    }
-    void ChangeId(int cid){
-        this.cid = cid;
-    }
-    void ChangeName(String name){
-        this.name = name;
-    }
-    void PrintCourse(){
-        System.out.print("The course id is:"+this.GetId()+"\t");
-        System.out.println("The course name is:"+this.Getname());
-    }
-}
-
-class CourseTest{
-    void Test(){
-        System.out.println("--COURSE TEST--");
-        //create the course object
-        Course[] course_arr = new Course[3];
-        course_arr[0] = new Course(001, "Chinese");
-        course_arr[1] = new Course(002, "math");
-        course_arr[2] = new Course(003, "English");
-        /*System.out.println("id\tname");
-        System.out.println(Chinese.cid+"\t"+Chinese.name);
-        System.out.println(math.cid+"\t"+math.name);
-        System.out.println(English.cid+"\t"+English.name);
-         */
-
-        //print the course info
-        PrintCourseArr(course_arr);
-        //add course
-        course_arr = AddCourse(course_arr, 004, "ExtraClass");
-
-        System.out.println("After add:");
-        PrintCourseArr(course_arr);
-        //change the course info
-        ChangeCourseInfo(course_arr, 001, "Chinese123");
-        //print again
-        System.out.println("After changing:");
-
-        PrintCourseArr(course_arr);
-        //delete an object
-        course_arr = DeleteCourse(course_arr, 004);
-
-        System.out.println("After delete:");
-
-        PrintCourseArr(course_arr);
-
-
+    Course[] CreateCourseArr(){
+        Course[] CourArr = new Course[0];
+        return CourArr;
     }
 
     void PrintCourseArr(Course[] arr){
@@ -138,8 +78,18 @@ class CourseTest{
             return;
         }
         else{
-            arr[goal].ChangeId(cid);
-            arr[goal].ChangeName(name);
+            try {
+                System.out.println("Please input new student info: ");
+                int tempSid = (int)System.in.read();
+                Scanner sc = new Scanner(System.in);
+                String tempName = sc.nextLine();
+                arr[goal].ChangeId(tempSid);
+                arr[goal].ChangeName(tempName);
+                System.out.println("Change info success !");
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
         }
     }
 }

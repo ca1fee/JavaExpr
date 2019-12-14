@@ -14,6 +14,7 @@ public class Main {
         gt.test();System.out.println();
 
         Menu mn = new Menu();
+        mn.ShowMenu();
 
     }
 }

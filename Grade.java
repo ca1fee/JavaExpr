@@ -3,6 +3,7 @@ package com.company;
  class Grade {
     int gid;
     int cid;
+    String cName;
     int tid;
     int[] sid;
     int[] score;
@@ -12,15 +13,17 @@ package com.company;
     Grade(){
         this.gid = -1;
         this.cid = -1;
+        this.cName = "none";
         this.tid = -1;
         this.sid = new int[50];
         this.score = new int[50];
 
         this.stu_cnt = 0;
     }
-    Grade(int gid, int cid, int tid){
+    Grade(int gid, int cid,String cName, int tid){
         this.gid = gid;
         this.cid = cid;
+        this.cName = cName;
         this.tid = tid;
         this.sid = new int[50];
         this.score = new int[50];
@@ -34,9 +37,8 @@ package com.company;
     void ChangeCid(int cid){
         this.cid = cid;
     }
-    void ChangeTid(int tid){
-        this.tid = tid;
-    }
+    void ChangeCName(String cName) {this.cName = cName; }
+    void ChangeTid(int tid) { this.tid = tid; }
     void ChangeId(int gid, int cid, int tid){
         this.gid = gid;
         this.cid = cid;
@@ -58,6 +60,7 @@ package com.company;
         int i;//print count
         System.out.println("The grade id is: "+this.gid);
         System.out.println("The course id is: "+this.cid);
+        System.out.println("The course name is: "+this.cName);
         System.out.println("The teacher id is: "+this.tid);
         System.out.print("The course has "+this.stu_cnt+" student, ");
         System.out.println("the grade is followed: ");
@@ -73,9 +76,9 @@ class GradeTest{
         System.out.println("--GRADE TEST--");
 
         Grade[] grade_arr = new Grade[3];
-        grade_arr[0] = new Grade(301, 001, 101);
-        grade_arr[1] = new Grade(302, 002, 102);
-        grade_arr[2] = new Grade(303, 003, 103);
+        grade_arr[0] = new Grade(301, 001, "Chinese", 101);
+        grade_arr[1] = new Grade(302, 002, "Math", 102);
+        grade_arr[2] = new Grade(303, 003, "English",  103);
 
         Student MingXiao = new Student(201, "MingXiao");
         Student HuaXiao = new Student(202, "HuaXiao");
