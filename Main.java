@@ -1,8 +1,12 @@
 package com.company;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
+
         CourseManager cmgr = new CourseManager();
         TeacherManager tmgr = new TeacherManager();
         StudentManager smgr = new StudentManager();

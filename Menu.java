@@ -26,6 +26,8 @@ public class Menu {
                         break;
                 case 3: ShowStudentMenu(smgr);
                         break;
+                case 4: ShowGradeMenu(cmgr, gmgr);
+                        break;
 
                 default: System.exit(0);
             }
@@ -48,9 +50,9 @@ public class Menu {
             //show the menu end
             //use switch to choose method start
             int Cho = 0;
-            Scanner gsc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             System.out.println("input to choose:");
-            Cho = gsc.nextInt();
+            Cho = sc.nextInt();
             //System.out.println(ChoCourse);
             switch (Cho){
                 case 1: cmgr.AddCourse();
@@ -79,9 +81,9 @@ public class Menu {
             //show the menu end
             //use switch to choose method start
             int Cho = 0;
-            Scanner gsc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             System.out.println("input to choose:");
-            Cho = gsc.nextInt();
+            Cho = sc.nextInt();
             //System.out.println(ChoTeacher);
             switch (Cho){
                 case 1: tmgr.AddTeacher();
@@ -110,9 +112,9 @@ public class Menu {
             //show the menu end
             //use switch to choose method start
             int Cho = 0;
-            Scanner gsc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             System.out.println("input to choose:");
-            Cho = gsc.nextInt();
+            Cho = sc.nextInt();
             //System.out.println(ChoStudent);
             switch (Cho){
                 case 1: smgr.AddStudent();
@@ -129,39 +131,40 @@ public class Menu {
         }
     }
     
-    void ShowGradeMenu(GradeManager gmgr){
-        System.out.println("--------course menu--------");
-        System.out.println("1.add course");
-        System.out.println("2.delete course");
-        System.out.println("3.search course");
-        System.out.println("4.change course");
-        System.out.println("else: quit");
+    void ShowGradeMenu(CourseManager cmgr, GradeManager gmgr){
 
-        int Cho = 0;
-        Scanner gsc = new Scanner(System.in);
-        System.out.println("input to choose:");
-        Cho = gsc.nextInt();
-        switch (Cho){
-            case 3:
-                int grade = -1;
-                int tempid;
-                String tempSname, tempCname;
-                System.out.print("input the student id: ");
-                tempid = gsc.nextInt();
-//                      System.out.print("input the student name: ");
-//                      tempSname = gsc.nextLine();
-                System.out.print("input the course name: ");
-                tempCname = gsc.nextLine();
+        while(true){
+            System.out.println("--------grade menu--------");
+            System.out.println("1.add grade");
+            System.out.println("2.delete grade");
+            System.out.println("3.search grade");
+            System.out.println("4.change grade");
+            System.out.println("5.search student grade");
+            System.out.println("6.add student grade");
 
-                grade = gmgr.SearchStudentGrade(gmgr.graArr, tempid, tempCname);
+            System.out.println("else: quit");
 
-                if(-1 == grade){
-                    System.out.println("Your grade has not come out !");
-
-                }
-                break;
-            default: return;
+            int Cho = 0;
+            Scanner sc = new Scanner(System.in);
+            System.out.println("input to choose:");
+            Cho = sc.nextInt();sc.nextLine();
+            switch (Cho){
+                case 1: gmgr.AddGrade();
+                        break;
+                case 2: gmgr.DeleteGrade();
+                        break;
+                case 3: gmgr.SearchGrade();
+                        break;
+                case 4: gmgr.ChangeGrade();
+                        break;
+                case 5: gmgr.SearchSpecificStudentGrade();
+                        break;
+                case 6: gmgr.AddStudentGrade();
+                        break;
+                default: return;
+            }
         }
+
 
     }
 
