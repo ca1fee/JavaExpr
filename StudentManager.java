@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class StudentManager {
+    Student[] stuArr;
+
     Student[] CreateStudentArr(){
         Student[] StudArr = new Student[0];
         return StudArr;

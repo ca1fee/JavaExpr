@@ -1,6 +1,8 @@
 package com.company;
 
 public class TeacherManager {
+    Teacher[] teaArr;
+
     Teacher[] CreateTeacherArr(){
         Teacher[] TeacArr = new Teacher[0];
         return TeacArr;

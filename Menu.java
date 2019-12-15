@@ -2,57 +2,111 @@ package com.company;
 import java.util.Scanner;
 
 public class Menu {
-    public void ShowMenu(){
-        System.out.println("---------menu-----------");
+    public void ShowMenu(CourseManager cmgr, TeacherManager tmgr, StudentManager smgr, GradeManager gmgr){
+        while(true){
+            System.out.println("---------menu-----------");
 
-        System.out.println("1.Course");
-        System.out.println("2.Teacher");
-        System.out.println("3.Student");
-        System.out.println("4.Grade");
-        System.out.println("\t\tinput number to chose~");
+            System.out.println("1.Course");
+            System.out.println("2.Teacher");
+            System.out.println("3.Student");
+            System.out.println("4.Grade");
+            System.out.println("else.exit");
 
-        //mgr.CourseManager cmgr = mgr.new CourseManager();
+            System.out.println("\t\tinput number to chose your status~");
 
-        int choice = 0;
-        Scanner sc = new Scanner(System.in);
-        choice = sc.nextInt();
-        switch (choice){
-            //case 1: this.ShowCourseMenu(cmgr);
 
+
+            int choice = 0;
+            Scanner sc = new Scanner(System.in);
+            choice = sc.nextInt();
+            switch (choice){
+                case 1: ShowCourseMenu(cmgr);
+                        break;
+
+                default: System.exit(0);
+            }
+            //System.out.println(choice);
         }
-        //System.out.println(choice);
+
+
     }
 
-    void ShowCourseMenu(CourseManager cmng){
-        //show the menu start
+    void ShowCourseMenu(CourseManager cmgr){
+        while(true){
+            //show the menu start
+            System.out.println("--------course menu--------");
+            System.out.println("1.add course");
+            System.out.println("2.delete course");
+            System.out.println("3.search course");
+            System.out.println("4.change course");
+            System.out.println("else: quit");
+
+            //show the menu end
+            //use switch to choose method start
+            int Cho = 0;
+            Scanner gsc = new Scanner(System.in);
+            System.out.println("input to choose:");
+            Cho = gsc.nextInt();
+            //System.out.println(ChoCourse);
+            switch (Cho){
+                case 1: cmgr.AddCourse();
+                        break;
+                case 2: cmgr.DeleteCourse();
+                        break;
+                case 3: cmgr.SearchCourse();
+                        break;
+                case 4: cmgr.ChangeCourseInfo();
+
+                default: return;
+            }
+            //use switch to choose method end
+        }
+    }
+    void ShowTeacherMenu(){
+        System.out.println("--------teacher menu--------");
+        System.out.println("1.add teacher");
+        System.out.println("2.delete teacher");
+        System.out.println("3.search teacher");
+        System.out.println("4.change teacher");
+        System.out.println("else: quit");
+        System.out.println();
+        System.out.println();
+
+
+    }
+    void ShowGradeMenu(GradeManager gmgr){
         System.out.println("--------course menu--------");
-        System.out.println("1.create course array");
-        System.out.println("2.show course array");
+        System.out.println("1.add course");
+        System.out.println("2.delete course");
         System.out.println("3.search course");
-        System.out.println("4.add course");
-        System.out.println("5.delete course");
-        System.out.println("6.change course");
-        System.out.println("-1.back");
-        //show the menu end
-        //use switch to choose method start
-        int ChoCourse = 0;
-        Scanner csc = new Scanner(System.in);
+        System.out.println("4.change course");
+        System.out.println("else: quit");
+
+        int Cho = 0;
+        Scanner gsc = new Scanner(System.in);
         System.out.println("input to choose:");
-        ChoCourse = csc.nextInt();
-        //System.out.println(ChoCourse);
-        switch (ChoCourse){
-            //case 1: mng.CourseManager
+        Cho = gsc.nextInt();
+        switch (Cho){
+            case 3:
+                int grade = -1;
+                int tempid;
+                String tempSname, tempCname;
+                System.out.print("input the student id: ");
+                tempid = gsc.nextInt();
+//                      System.out.print("input the student name: ");
+//                      tempSname = gsc.nextLine();
+                System.out.print("input the course name: ");
+                tempCname = gsc.nextLine();
+
+                grade = gmgr.SearchStudentGrade(gmgr.graArr, tempid, tempCname);
+
+                if(-1 == grade){
+                    System.out.println("Your grade has not come out !");
+
+                }
+                break;
+            default: return;
         }
-
-        //use switch to choose method end
-    }
-    void ShowTeacherMenu(Teacher[] TeacArr){
-
-    }
-    void ShowStudentMenu(Student[] StudArr){
-
-    }
-    void ShowGradeMenu(Grade[] GradArr){
 
     }
 

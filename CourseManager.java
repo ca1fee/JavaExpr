@@ -5,74 +5,127 @@ import java.util.Scanner;
 
 public class CourseManager {
 
+    Course[] couArr;
+
     Course[] CreateCourseArr(){
-        Course[] CourArr = new Course[0];
-        return CourArr;
+        this.couArr = new Course[0];
+        return this.couArr;
     }
 
-    void PrintCourseArr(Course[] arr){
-        int i;
-        for(i = 0; i < arr.length; i++){
-            if(null == arr[i]){
-                System.out.println("arr[" + i + "] is null");
+    void PrintCourseArr(){
+        int i, emptFlag = -1;
+        for(i = 0; i < this.couArr.length; i++){
+            emptFlag++;
+            if(null == this.couArr[i]){
+                System.out.println("this.couArr[" + i + "] is null");
                 break;
             }
-            arr[i].PrintCourse();
+            this.couArr[i].PrintCourse();
         }
+        if(-1 == emptFlag)
+            System.out.println("--empty--");
     }
     //Search by id
-    int SearchCourse(Course[] arr, int cid){
+    int SearchCourse(){
         int find = -1, i;
-        for(i = 0; i < arr.length; i++){
-            if(cid == arr[i].GetId())
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the cid: ");
+        int cid = sc.nextInt();
+        find = this.SearchCourse(cid);
+
+        return find;
+    }
+    int SearchCourse(int cid){
+        int find = -1, i;
+        for(i = 0; i < this.couArr.length; i++){
+            if(cid == this.couArr[i].GetId())
                 find = i;
         }
+        if(-1 != find)
+            this.couArr[find].PrintCourse();
+        else
+            System.out.println("The course has id as "+cid+"is not existed");
 
         return find;
     }
 
-    Course[] AddCourse(Course[] arr, int cid, String name){
-        int goal = SearchCourse(arr, cid);
+    Course[] AddCourse(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the cid: ");
+        int cid = sc.nextInt();sc.nextLine();
+        System.out.print("Input the course name: ");
+        String name = sc.nextLine();
+
+        return AddCourse(cid, name);
+    }
+
+    Course[] AddCourse( int cid, String name){
+        int goal = SearchCourse(cid);
         if(-1 != goal){
             System.out.println("The course has Id as " + cid +"has existed !");
-            return arr;
+            return this.couArr;
         }
         else{
             int i, j;
-            Course[] NewArr = new Course[arr.length + 1];
-            for(i = 0; i < arr.length; i++){
-                NewArr[i] = arr[i];
+            Course[] NewArr = new Course[this.couArr.length + 1];
+            for(i = 0; i < this.couArr.length; i++){
+                NewArr[i] = this.couArr[i];
             }
             NewArr[i] = new Course(cid, name);
+            this.couArr = NewArr;
             System.out.println("Add course has id " + cid +" success!");
+
+            PrintCourseArr();
 
             return NewArr;
         }
     }
 
-    Course[] DeleteCourse(Course[] arr, int cid){
-        int goal = SearchCourse(arr, cid);
+    Course[] DeleteCourse(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the cid: ");
+        int cid = sc.nextInt();
+        return DeleteCourse(cid);
+    }
+
+    Course[] DeleteCourse( int cid){
+        int goal = SearchCourse(  cid);
         if(-1 == goal){
             System.out.println("Course has Id as" + cid +"not found !");
-            return arr;
+            return this.couArr;
         }
         else{
             int i, j;
-            Course[] NewArr = new Course[arr.length - 1];
+            Course[] NewArr = new Course[this.couArr.length - 1];
             for(i = 0; i < goal; i++){
-                NewArr[i] = arr[i];
+                NewArr[i] = this.couArr[i];
             }
-            for(i = goal, j = goal+1; i < NewArr.length && j < arr.length; i++, j++){
-                NewArr[i] = arr[j];
+            for(i = goal, j = goal+1; i < NewArr.length && j < this.couArr.length; i++, j++){
+                NewArr[i] = this.couArr[j];
             }
+
+            this.couArr = NewArr;
+
             System.out.println("Delete course has id " + cid +" success!");
+
+            PrintCourseArr();
 
             return NewArr;
         }
     }
 
-    void ChangeCourseInfo(Course[] arr, int cid, String name){
-        int goal = SearchCourse(arr, cid);
+
+    void ChangeCourseInfo(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the cid: ");
+        int cid = sc.nextInt();
+        System.out.print("Input the course name: ");
+        String name = sc.nextLine();
+        ChangeCourseInfo(cid, name);
+    }
+
+    void ChangeCourseInfo( int cid, String name){
+        int goal = SearchCourse(cid);
         if(-1 == goal){
             System.out.println("Course has Id as" + cid +"not found !");
             return;
@@ -83,8 +136,8 @@ public class CourseManager {
                 int tempSid = (int)System.in.read();
                 Scanner sc = new Scanner(System.in);
                 String tempName = sc.nextLine();
-                arr[goal].ChangeId(tempSid);
-                arr[goal].ChangeName(tempName);
+                this.couArr[goal].ChangeId(tempSid);
+                this.couArr[goal].ChangeName(tempName);
                 System.out.println("Change info success !");
             }catch(IOException e){
                 e.printStackTrace();

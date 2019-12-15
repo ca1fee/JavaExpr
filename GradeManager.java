@@ -1,6 +1,8 @@
 package com.company;
 
 public class GradeManager {
+    Grade[] graArr;
+
     Grade[] CreateGradeArr(){
         Grade[] GradArr = new Grade[0];
         return GradArr;
@@ -27,6 +29,8 @@ public class GradeManager {
             if(arr[find].sid[i] == sid)
                 break;
         }
+
+        arr[find].PrintGrade();
 
         return arr[find].score[i];
     }

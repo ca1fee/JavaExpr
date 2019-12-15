@@ -3,18 +3,31 @@ package com.company;
 public class Main {
 
     public static void main(String[] args) {
-        CourseTest ct = new CourseTest();
-        TeacherTest tt = new TeacherTest();
-        StudentTest st = new StudentTest();
-        GradeTest gt = new GradeTest();
+        CourseManager cmgr = new CourseManager();
+        TeacherManager tmgr = new TeacherManager();
+        StudentManager smgr = new StudentManager();
+        GradeManager gmgr = new GradeManager();
 
-        ct.Test();System.out.println();
-        tt.test();System.out.println();
-        st.test();System.out.println();
-        gt.test();System.out.println();
+        cmgr.couArr = cmgr.CreateCourseArr();
+        tmgr.teaArr = tmgr.CreateTeacherArr();
+        smgr.stuArr = smgr.CreateStudentArr();
+        gmgr.graArr = gmgr.CreateGradeArr();
 
         Menu mn = new Menu();
-        mn.ShowMenu();
+        mn.ShowMenu(cmgr, tmgr, smgr, gmgr);
+
+//        CourseTest ct = new CourseTest();
+//        TeacherTest tt = new TeacherTest();
+//        StudentTest st = new StudentTest();
+//        GradeTest gt = new GradeTest();
+//
+//        ct.Test();System.out.println();
+//        tt.test();System.out.println();
+//        st.test();System.out.println();
+//        gt.test();System.out.println();
+//
+//        Menu mn = new Menu();
+//        mn.ShowMenu();
 
     }
 }
