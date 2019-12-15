@@ -1,83 +1,147 @@
 package com.company;
 
+import java.io.IOException;
+import java.util.Scanner;
+
 public class TeacherManager {
     Teacher[] teaArr;
 
     Teacher[] CreateTeacherArr(){
-        Teacher[] TeacArr = new Teacher[0];
-        return TeacArr;
+        this.teaArr = new Teacher[0];
+        return this.teaArr;
     }
 
-    void PrintTeacherArr(Teacher[] arr){
-        int i;
-        for(i = 0; i < arr.length; i++){
-            if(null == arr[i]){
-                System.out.println("arr[" + i + "] is null");
+    void PrintTeacherArr(){
+        int i, emptFlag = -1;
+        for(i = 0; i < this.teaArr.length; i++){
+            emptFlag++;
+            if(null == this.teaArr[i]){
+                System.out.println("this.teaArr[" + i + "] is null");
                 break;
             }
-            arr[i].PrintTeacher();
+            this.teaArr[i].PrintTeacher();
         }
+        if(-1 == emptFlag)
+            System.out.println("--empty--");
     }
     //Search by id
-    int SearchTeacher(Teacher[] arr, int tid){
+    int SearchTeacher(){
         int find = -1, i;
-        for(i = 0; i < arr.length; i++){
-            if(tid == arr[i].GetId())
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the tid: ");
+        int tid = sc.nextInt();
+        find = this.SearchTeacher(tid);
+
+        return find;
+    }
+    int SearchTeacher(int tid){
+        int find = -1, i;
+        for(i = 0; i < this.teaArr.length; i++){
+            if(tid == this.teaArr[i].GetId())
                 find = i;
         }
+        if(-1 != find)
+            this.teaArr[find].PrintTeacher();
+        else
+            System.out.println("The teacher has id as "+tid+"is not existed");
 
         return find;
     }
 
-    Teacher[] AddTeacher(Teacher[] arr, int tid, String name){
-        int goal = SearchTeacher(arr, tid);
+    Teacher[] AddTeacher(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the tid: ");
+        int tid = sc.nextInt();sc.nextLine();
+        System.out.print("Input the teacher name: ");
+        String name = sc.nextLine();
+
+        return AddTeacher(tid, name);
+    }
+
+    Teacher[] AddTeacher( int tid, String name){
+        int goal = SearchTeacher(tid);
         if(-1 != goal){
-            System.out.println("The course has Id as " + tid +"has existed !");
-            return arr;
+            System.out.println("The teacher has Id as " + tid +"has existed !");
+            return this.teaArr;
         }
         else{
             int i, j;
-            Teacher[] NewArr = new Teacher[arr.length + 1];
-            for(i = 0; i < arr.length; i++){
-                NewArr[i] = arr[i];
+            Teacher[] NewArr = new Teacher[this.teaArr.length + 1];
+            for(i = 0; i < this.teaArr.length; i++){
+                NewArr[i] = this.teaArr[i];
             }
             NewArr[i] = new Teacher(tid, name);
-            System.out.println("Add course has id " + tid +" success!");
+            this.teaArr = NewArr;
+            System.out.println("Add teacher has id " + tid +" success!");
+
+            PrintTeacherArr();
 
             return NewArr;
         }
     }
 
-    Teacher[] DeleteTeacher(Teacher[] arr, int tid){
-        int goal = SearchTeacher(arr, tid);
+    Teacher[] DeleteTeacher(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the tid: ");
+        int tid = sc.nextInt();
+        return DeleteTeacher(tid);
+    }
+
+    Teacher[] DeleteTeacher( int tid){
+        int goal = SearchTeacher(  tid);
         if(-1 == goal){
             System.out.println("Teacher has Id as" + tid +"not found !");
-            return arr;
+            return this.teaArr;
         }
         else{
             int i, j;
-            Teacher[] NewArr = new Teacher[arr.length - 1];
+            Teacher[] NewArr = new Teacher[this.teaArr.length - 1];
             for(i = 0; i < goal; i++){
-                NewArr[i] = arr[i];
+                NewArr[i] = this.teaArr[i];
             }
-            for(i = goal, j = goal+1; i < NewArr.length && j < arr.length; i++, j++){
-                NewArr[i] = arr[j];
+            for(i = goal, j = goal+1; i < NewArr.length && j < this.teaArr.length; i++, j++){
+                NewArr[i] = this.teaArr[j];
             }
-            System.out.println("Delete course has id " + tid +" success!");
+
+            this.teaArr = NewArr;
+
+            System.out.println("Delete teacher has id " + tid +" success!");
+
+            PrintTeacherArr();
 
             return NewArr;
         }
     }
 
-    void ChangeTeacherInfo(Teacher[] arr, int tid, String name){
-        int goal = SearchTeacher(arr, tid);
+
+    void ChangeTeacherInfo(){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Input the tid: ");
+        int tid = sc.nextInt();
+        System.out.print("Input the teacher name: ");
+        String name = sc.nextLine();
+        ChangeTeacherInfo(tid, name);
+    }
+
+    void ChangeTeacherInfo( int tid, String name){
+        int goal = SearchTeacher(tid);
         if(-1 == goal){
             System.out.println("Teacher has Id as" + tid +"not found !");
             return;
         }
         else{
-            arr[goal].ChangeId(tid);
-            arr[goal].ChangeName(name);
+            try {
+                System.out.println("Please input new student info: ");
+                int tempSid = (int)System.in.read();
+                Scanner sc = new Scanner(System.in);
+                String tempName = sc.nextLine();
+                this.teaArr[goal].ChangeId(tempSid);
+                this.teaArr[goal].ChangeName(tempName);
+                System.out.println("Change info success !");
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+
         }
     }
 }
