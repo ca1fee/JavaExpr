@@ -1,11 +1,39 @@
 package com.company;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class CourseManager {
 
     Course[] couArr;
+
+    CourseManager() {
+        this.couArr = new Course[0];
+        Scanner cfsc = null;
+        File couFile = new File("course.txt");
+        if(!couFile.exists()){
+            try{
+                couFile.createNewFile();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        try{
+            cfsc = new Scanner(new FileInputStream(couFile));
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        String tempName;
+        int tempSid;
+        while(cfsc.hasNext()){
+            tempName = cfsc.next();
+            tempSid = cfsc.nextInt();cfsc.nextLine();
+            this.AddCourse(tempSid, tempName);
+        }
+        cfsc.close();
+        System.out.println("Initialise course info successfully !");
+        this.PrintCourseArr();
+    }
 
     Course[] CreateCourseArr(){
         this.couArr = new Course[0];
@@ -144,5 +172,23 @@ public class CourseManager {
             }
 
         }
+    }
+
+    int SaveCourseInfo() {
+        try {
+            FileWriter sfw = new FileWriter("course.txt");
+            int i;
+            for (i = 0; i < this.couArr.length; i++) {
+                sfw.write(this.couArr[i].name+"\t");
+                sfw.write(this.couArr[i].cid+"\n");
+            }
+            System.out.print("Save course successfully !");
+            sfw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return 1;
     }
 }

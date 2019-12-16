@@ -1,10 +1,39 @@
 package com.company;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class TeacherManager {
     Teacher[] teaArr;
+
+
+    TeacherManager() {
+        this.teaArr = new Teacher[0];
+        Scanner tfsc = null;
+        File teaFile = new File("teacher.txt");
+        if(!teaFile.exists()){
+            try{
+                teaFile.createNewFile();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        try{
+            tfsc = new Scanner(new FileInputStream(teaFile));
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        String tempName;
+        int tempTid;
+        while(tfsc.hasNext()){
+            tempName = tfsc.next();
+            tempTid = tfsc.nextInt();tfsc.nextLine();
+            this.AddTeacher(tempTid, tempName);
+        }
+        tfsc.close();
+        System.out.println("Initialise teacher info successfully !");
+        this.PrintTeacherArr();
+    }
 
     Teacher[] CreateTeacherArr(){
         this.teaArr = new Teacher[0];
@@ -143,5 +172,23 @@ public class TeacherManager {
             }
 
         }
+    }
+
+    int SaveTeacherInfo() {
+        try {
+            FileWriter sfw = new FileWriter("teacher.txt");
+            int i;
+            for (i = 0; i < this.teaArr.length; i++) {
+                sfw.write(this.teaArr[i].name+"\t");
+                sfw.write(this.teaArr[i].tid+"\n");
+            }
+            System.out.print("Save teacher successfully !");
+            sfw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return 1;
     }
 }

@@ -1,4 +1,6 @@
 package com.company;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Menu {
@@ -15,7 +17,6 @@ public class Menu {
             System.out.println("\t\tinput number to chose your status~");
 
 
-
             int choice = 0;
             Scanner sc = new Scanner(System.in);
             choice = sc.nextInt();
@@ -25,6 +26,8 @@ public class Menu {
                 case 2: ShowTeacherMenu(tmgr);
                         break;
                 case 3: ShowStudentMenu(smgr);
+                        break;
+                case 4: ShowGradeMenu(cmgr, gmgr);
                         break;
 
                 default: System.exit(0);
@@ -39,6 +42,7 @@ public class Menu {
         while(true){
             //show the menu start
             System.out.println("--------course menu--------");
+            System.out.println("0.print course");
             System.out.println("1.add course");
             System.out.println("2.delete course");
             System.out.println("3.search course");
@@ -48,11 +52,13 @@ public class Menu {
             //show the menu end
             //use switch to choose method start
             int Cho = 0;
-            Scanner gsc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             System.out.println("input to choose:");
-            Cho = gsc.nextInt();
+            Cho = sc.nextInt();
             //System.out.println(ChoCourse);
             switch (Cho){
+                case 0: cmgr.PrintCourseArr();
+                        break;
                 case 1: cmgr.AddCourse();
                         break;
                 case 2: cmgr.DeleteCourse();
@@ -61,7 +67,8 @@ public class Menu {
                         break;
                 case 4: cmgr.ChangeCourseInfo();
 
-                default: return;
+                default:cmgr.SaveCourseInfo();
+                        return;
             }
             //use switch to choose method end
         }
@@ -70,6 +77,7 @@ public class Menu {
         while(true){
             //show the menu start
             System.out.println("--------teacher menu--------");
+            System.out.println("0.print teacher");
             System.out.println("1.add teacher");
             System.out.println("2.delete teacher");
             System.out.println("3.search teacher");
@@ -79,11 +87,13 @@ public class Menu {
             //show the menu end
             //use switch to choose method start
             int Cho = 0;
-            Scanner gsc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             System.out.println("input to choose:");
-            Cho = gsc.nextInt();
+            Cho = sc.nextInt();
             //System.out.println(ChoTeacher);
             switch (Cho){
+                case 0: tmgr.PrintTeacherArr();
+                        break;
                 case 1: tmgr.AddTeacher();
                     break;
                 case 2: tmgr.DeleteTeacher();
@@ -92,7 +102,8 @@ public class Menu {
                     break;
                 case 4: tmgr.ChangeTeacherInfo();
 
-                default: return;
+                default:tmgr.SaveTeacherInfo();
+                        return;
             }
             //use switch to choose method end
         }
@@ -101,67 +112,77 @@ public class Menu {
         while(true){
             //show the menu start
             System.out.println("--------student menu--------");
+            System.out.println("0.print course");
             System.out.println("1.add student");
             System.out.println("2.delete student");
             System.out.println("3.search student");
             System.out.println("4.change student");
-            System.out.println("else: quit");
+            System.out.println("else: quit and save");
 
             //show the menu end
             //use switch to choose method start
             int Cho = 0;
-            Scanner gsc = new Scanner(System.in);
+            Scanner sc = new Scanner(System.in);
             System.out.println("input to choose:");
-            Cho = gsc.nextInt();
+            Cho = sc.nextInt();
             //System.out.println(ChoStudent);
             switch (Cho){
+                case 0: smgr.PrintStudentArr();
+                        break;
                 case 1: smgr.AddStudent();
-                    break;
+                        break;
                 case 2: smgr.DeleteStudent();
-                    break;
+                        break;
                 case 3: smgr.SearchStudent();
-                    break;
+                        break;
                 case 4: smgr.ChangeStudentInfo();
+                        break;
 
-                default: return;
+                default:smgr.SaveStudentInfo();
+                        return;
             }
             //use switch to choose method end
         }
     }
     
-    void ShowGradeMenu(GradeManager gmgr){
-        System.out.println("--------course menu--------");
-        System.out.println("1.add course");
-        System.out.println("2.delete course");
-        System.out.println("3.search course");
-        System.out.println("4.change course");
-        System.out.println("else: quit");
+    void ShowGradeMenu(CourseManager cmgr, GradeManager gmgr){
 
-        int Cho = 0;
-        Scanner gsc = new Scanner(System.in);
-        System.out.println("input to choose:");
-        Cho = gsc.nextInt();
-        switch (Cho){
-            case 3:
-                int grade = -1;
-                int tempid;
-                String tempSname, tempCname;
-                System.out.print("input the student id: ");
-                tempid = gsc.nextInt();
-//                      System.out.print("input the student name: ");
-//                      tempSname = gsc.nextLine();
-                System.out.print("input the course name: ");
-                tempCname = gsc.nextLine();
+        while(true){
+            System.out.println("--------grade menu--------");
+            System.out.println("0.print grade");
+            System.out.println("1.add grade");
+            System.out.println("2.delete grade");
+            System.out.println("3.search grade");
+            System.out.println("4.change grade");
+            System.out.println("5.search student grade");
+            System.out.println("6.add student grade");
 
-                grade = gmgr.SearchStudentGrade(gmgr.graArr, tempid, tempCname);
+            System.out.println("else: quit");
 
-                if(-1 == grade){
-                    System.out.println("Your grade has not come out !");
-
-                }
-                break;
-            default: return;
+            int Cho = 0;
+            Scanner sc = new Scanner(System.in);
+            System.out.println("input to choose:");
+            Cho = sc.nextInt();sc.nextLine();
+            switch (Cho){
+                case 0: gmgr.PrintGradeArr();
+                        break;
+                case 1: gmgr.AddGrade();
+                        break;
+                case 2: gmgr.DeleteGrade();
+                        break;
+                case 3: gmgr.SearchGrade();
+                        break;
+                case 4: gmgr.ChangeGrade();
+                        break;
+                case 5: gmgr.SearchSpecificStudentGrade();
+                        break;
+                case 6: gmgr.AddStudentGrade();
+                        break;
+                default:gmgr.SaveGradeInfo();
+                        return;
+            }
         }
+
 
     }
 

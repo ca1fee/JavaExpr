@@ -8,15 +8,15 @@ package com.company;
     int[] sid;
     int[] score;
 
-    private int stu_cnt;
+    int stu_cnt;
 
     Grade(){
         this.gid = -1;
         this.cid = -1;
         this.cName = "none";
         this.tid = -1;
-        this.sid = new int[50];
-        this.score = new int[50];
+        this.sid = new int[0];
+        this.score = new int[0];
 
         this.stu_cnt = 0;
     }
@@ -25,8 +25,8 @@ package com.company;
         this.cid = cid;
         this.cName = cName;
         this.tid = tid;
-        this.sid = new int[50];
-        this.score = new int[50];
+        this.sid = new int[0];
+        this.score = new int[0];
 
         this.stu_cnt = 0;
     }
