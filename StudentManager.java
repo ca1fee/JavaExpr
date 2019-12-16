@@ -1,10 +1,40 @@
 package com.company;
 
-import java.io.IOException;
+import jdk.nashorn.internal.runtime.ECMAException;
+
+import java.io.*;
 import java.util.Scanner;
 
 public class StudentManager {
     Student[] stuArr;
+
+
+    StudentManager() {
+        this.stuArr = new Student[0];
+        Scanner sfsc = null;
+        File stuFile = new File("student.txt");
+        if(!stuFile.exists()){
+            try{
+                stuFile.createNewFile();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        try{
+            sfsc = new Scanner(new FileInputStream(stuFile));
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+        String tempName;
+        int tempSid;
+        while(sfsc.hasNext()){
+            tempName = sfsc.next();
+            tempSid = sfsc.nextInt();sfsc.nextLine();
+            this.AddStudent(tempSid, tempName);
+        }
+        sfsc.close();
+        System.out.println("Initialise student info successfully !");
+    }
 
     Student[] CreateStudentArr(){
         this.stuArr = new Student[0];
@@ -144,4 +174,23 @@ public class StudentManager {
 
         }
     }
+
+    int SaveStudentInfo() {
+        try {
+            FileWriter sfw = new FileWriter("student.txt");
+            int i;
+            for (i = 0; i < this.stuArr.length; i++) {
+                sfw.write(this.stuArr[i].name+"\t");
+                sfw.write(this.stuArr[i].sid+"\n");
+            }
+            System.out.print("Save student successfully !");
+            sfw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return 1;
+    }
+
 }

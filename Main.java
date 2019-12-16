@@ -12,13 +12,10 @@ public class Main {
         StudentManager smgr = new StudentManager();
         GradeManager gmgr = new GradeManager();
 
-        cmgr.couArr = cmgr.CreateCourseArr();
-        tmgr.teaArr = tmgr.CreateTeacherArr();
-        smgr.stuArr = smgr.CreateStudentArr();
-        gmgr.graArr = gmgr.CreateGradeArr();
 
         Menu mn = new Menu();
         mn.ShowMenu(cmgr, tmgr, smgr, gmgr);
+
 
 //        CourseTest ct = new CourseTest();
 //        TeacherTest tt = new TeacherTest();

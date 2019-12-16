@@ -1,9 +1,73 @@
 package com.company;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class GradeManager {
     Grade[] graArr;
+
+    GradeManager() {
+        this.graArr = new Grade[0];
+        Scanner sfsc = null;
+        File graFile = new File("grade.txt");
+        if(!graFile.exists()){
+            try{
+                graFile.createNewFile();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        try{
+            sfsc = new Scanner(new FileInputStream(graFile));
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        int tempGid = -1, tempCid = -1;
+        String tempCName = "none";
+        int tempTid = -1;
+        while(sfsc.hasNext()){
+            tempGid = sfsc.nextInt();
+            tempCid = sfsc.nextInt();
+            tempCName = sfsc.next();
+            tempTid = sfsc.nextInt();
+            this.AddGrade(this.graArr, tempGid, tempCid, tempCName, tempTid);
+            InitCourseGrade(tempCName, tempCid);
+        }
+        sfsc.close();
+        System.out.println("Initialise grade info successfully !");
+    }
+
+    int InitCourseGrade(String CName, int Cid){
+        Scanner tempsc = null;
+        File cf = new File(CName+Cid+"grade.txt");
+        if(!cf.exists()){
+            try{
+                cf.createNewFile();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        try{
+            tempsc = new Scanner(new FileInputStream(cf));
+        }catch(FileNotFoundException e){
+            e.printStackTrace();
+        }
+
+        //read file
+        int tempSid, tempScore;
+        while(tempsc.hasNext()){
+            tempSid = tempsc.nextInt();
+            tempScore = tempsc.nextInt();tempsc.nextLine();
+            this.AddStudentGrade(this.graArr, Cid, tempSid, tempScore);
+        }
+        tempsc.close();
+        System.out.println("--course "+CName+" initialise successfully--");
+        return 1;
+    }
 
     Grade[] CreateGradeArr(){
         Grade[] GradArr = new Grade[0];
@@ -142,28 +206,31 @@ public class GradeManager {
         System.out.print("input the grade id: ");
         int tempId = sc.nextInt();
 
-        return DeleteGrade(this.graArr, tempId);
+        return DeleteGrade(tempId);
     }
 
-    Grade[] DeleteGrade(Grade[] arr, int  gid){
+    Grade[] DeleteGrade(int  gid){
         int goal = SearchGradeById(gid);
         if(-1 == goal){
             System.out.println("Grade has name as" + gid +"not found !");
-            return arr;
+            return this.graArr;
         }
         else{
+            //delete the file
+            File gf = new File(this.graArr[goal].cName+this.graArr[goal].cid+"grade.txt");
+            gf.delete();
             int i, j;
-            Grade[] NewArr = new Grade[arr.length - 1];
+            Grade[] NewArr = new Grade[this.graArr.length - 1];
             for(i = 0; i < goal; i++){
-                NewArr[i] = arr[i];
+                NewArr[i] = this.graArr[i];
             }
-            for(i = goal, j = goal+1; i < NewArr.length && j < arr.length; i++, j++){
-                NewArr[i] = arr[j];
+            for(i = goal, j = goal+1; i < NewArr.length && j < this.graArr.length; i++, j++){
+                NewArr[i] = this.graArr[j];
             }
-            arr = NewArr;
+            this.graArr = NewArr;
             System.out.println("Delete course has name " + gid +" success!");
 
-            PrintGradeArr(arr);
+            PrintGradeArr(this.graArr);
 
             return NewArr;
         }
@@ -242,6 +309,56 @@ public class GradeManager {
 
         System.out.println("Add student grade successfully !");
         this.PrintGradeArr();
+
+        return 1;
+    }
+
+    int SaveCourseGradeInfo(Grade grd){
+        File cf = new File(grd.cName+grd.cid+"grade.txt");
+        if(!cf.exists()){
+            try{
+                cf.createNewFile();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        try {
+            FileWriter tempfw = new FileWriter(cf);
+
+            int i;
+            for (i = 0; i < grd.sid.length; i++) {
+                tempfw.write(grd.sid[i]+"\t");
+                tempfw.write(grd.score[i]+"\n");
+            }
+            //System.out.print("Save course successfully !");
+            tempfw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        return 1;
+
+    }
+
+    int SaveGradeInfo() {
+        try {
+            FileWriter sfw = new FileWriter("grade.txt");
+            int i;
+            for (i = 0; i < this.graArr.length; i++) {
+                sfw.write(this.graArr[i].gid+"\t");
+                sfw.write(this.graArr[i].cid+"\t");
+                sfw.write(this.graArr[i].cName+"\t");
+                sfw.write(this.graArr[i].tid+"\n");
+
+                this.SaveCourseGradeInfo(this.graArr[i]);
+            }
+            System.out.println("Save grade successfully !");
+            sfw.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         return 1;
     }
